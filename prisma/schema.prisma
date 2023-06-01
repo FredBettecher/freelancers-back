@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model profileSkills {
+  id        Int       @id @default(autoincrement())
+  profileId Int?
+  skillId   Int?
+  createdAt DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime? @db.Timestamptz(6)
+  profiles  profiles? @relation(fields: [profileId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  skills    skills?   @relation(fields: [skillId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model profiles {
+  id             Int             @id @default(autoincrement())
+  userId         Int?
+  profilePicture String?
+  bio            String?
+  occupation     String?         @db.VarChar(100)
+  experience     String?
+  location       String?         @db.VarChar(100)
+  createdAt      DateTime?       @default(now()) @db.Timestamptz(6)
+  updatedAt      DateTime?       @db.Timestamptz(6)
+  profileSkills  profileSkills[]
+  users          users?          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model services {
+  id                  Int                   @id
+  title               String                @db.VarChar(255)
+  description         String
+  category            Int?
+  price               Int
+  createdAt           DateTime?             @default(now()) @db.Timestamptz(6)
+  updatedAt           DateTime?             @db.Timestamptz(6)
+  servicesCategories  servicesCategories?   @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  servicesAvaliations servicesAvaliations[]
+  userServices        userServices[]
+}
+
+model servicesAvaliations {
+  id          Int       @id @default(autoincrement())
+  userId      Int?
+  serviceId   Int?
+  priceRate   Int
+  qualityRate Int
+  comment     String?
+  createdAt   DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt   DateTime? @db.Timestamptz(6)
+  services    services? @relation(fields: [serviceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users       users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model servicesCategories {
+  id        Int        @id
+  name      String     @db.VarChar(255)
+  createdAt DateTime?  @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime?  @db.Timestamptz(6)
+  services  services[]
+}
+
+model sessions {
+  id        Int       @id @default(autoincrement())
+  token     String    @unique @db.VarChar(255)
+  userId    Int?
+  createdAt DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime? @db.Timestamptz(6)
+  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model skills {
+  id            Int             @id @default(autoincrement())
+  name          String          @db.VarChar(255)
+  description   String?
+  createdAt     DateTime?       @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime?       @db.Timestamptz(6)
+  profileSkills profileSkills[]
+}
+
+model userServices {
+  id        Int       @id @default(autoincrement())
+  userId    Int?
+  serviceId Int?
+  createdAt DateTime? @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime? @db.Timestamptz(6)
+  services  services? @relation(fields: [serviceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model users {
+  id                  Int                   @id @default(autoincrement())
+  name                String                @db.VarChar(100)
+  email               String                @unique @db.VarChar(255)
+  password            String                @db.VarChar(20)
+  createdAt           DateTime?             @default(now()) @db.Timestamptz(6)
+  updatedAt           DateTime?             @db.Timestamptz(6)
+  profiles            profiles[]
+  servicesAvaliations servicesAvaliations[]
+  sessions            sessions[]
+  userServices        userServices[]
+}
