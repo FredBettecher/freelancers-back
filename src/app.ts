@@ -1,15 +1,19 @@
-import express from 'express';
+import express, { Express } from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
+import { connectDB, disconnectDB } from 'config';
+import { authRouter } from 'routes';
 
-import { connectDB, disconnectDB } from 'controllers';
+dotenv.config();
 
 const app = express();
 app
     .use(cors())
-    .use(express.json());
+    .use(express.json())
+    .use('/', authRouter);
 
-export function init(){
-    connectDB;
+export function init(): Promise<Express> {
+    connectDB();
     return Promise.resolve(app);
 }
 
