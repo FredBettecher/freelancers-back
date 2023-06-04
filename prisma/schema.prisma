@@ -7,17 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model profileSkills {
+model ProfileSkills {
   id        Int       @id @default(autoincrement())
   profileId Int?
   skillId   Int?
   createdAt DateTime? @default(now()) @db.Timestamptz(6)
   updatedAt DateTime? @db.Timestamptz(6)
-  profiles  profiles? @relation(fields: [profileId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  skills    skills?   @relation(fields: [skillId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  profiles  Profiles? @relation(fields: [profileId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  skills    Skills?   @relation(fields: [skillId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model profiles {
+model Profiles {
   id             Int             @id @default(autoincrement())
   userId         Int?
   profilePicture String?
@@ -27,11 +27,11 @@ model profiles {
   location       String?         @db.VarChar(100)
   createdAt      DateTime?       @default(now()) @db.Timestamptz(6)
   updatedAt      DateTime?       @db.Timestamptz(6)
-  profileSkills  profileSkills[]
-  users          users?          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  profileSkills  ProfileSkills[]
+  users          Users?          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model services {
+model Services {
   id                  Int                   @id
   title               String                @db.VarChar(255)
   description         String
@@ -39,12 +39,12 @@ model services {
   price               Int
   createdAt           DateTime?             @default(now()) @db.Timestamptz(6)
   updatedAt           DateTime?             @db.Timestamptz(6)
-  servicesCategories  servicesCategories?   @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  servicesAvaliations servicesAvaliations[]
-  userServices        userServices[]
+  servicesCategories  ServicesCategories?   @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  servicesAvaliations ServicesAvaliations[]
+  userServices        UserServices[]
 }
 
-model servicesAvaliations {
+model ServicesAvaliations {
   id          Int       @id @default(autoincrement())
   userId      Int?
   serviceId   Int?
@@ -53,55 +53,55 @@ model servicesAvaliations {
   comment     String?
   createdAt   DateTime? @default(now()) @db.Timestamptz(6)
   updatedAt   DateTime? @db.Timestamptz(6)
-  services    services? @relation(fields: [serviceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users       users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  services    Services? @relation(fields: [serviceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users       Users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model servicesCategories {
+model ServicesCategories {
   id        Int        @id
   name      String     @db.VarChar(255)
   createdAt DateTime?  @default(now()) @db.Timestamptz(6)
   updatedAt DateTime?  @db.Timestamptz(6)
-  services  services[]
+  services  Services[]
 }
 
-model sessions {
+model Sessions {
   id        Int       @id @default(autoincrement())
   token     String    @unique @db.VarChar(255)
   userId    Int?
   createdAt DateTime? @default(now()) @db.Timestamptz(6)
   updatedAt DateTime? @db.Timestamptz(6)
-  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users     Users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model skills {
+model Skills {
   id            Int             @id @default(autoincrement())
   name          String          @db.VarChar(255)
   description   String?
   createdAt     DateTime?       @default(now()) @db.Timestamptz(6)
   updatedAt     DateTime?       @db.Timestamptz(6)
-  profileSkills profileSkills[]
+  profileSkills ProfileSkills[]
 }
 
-model userServices {
+model UserServices {
   id        Int       @id @default(autoincrement())
   userId    Int?
   serviceId Int?
   createdAt DateTime? @default(now()) @db.Timestamptz(6)
   updatedAt DateTime? @db.Timestamptz(6)
-  services  services? @relation(fields: [serviceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users     users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  services  Services? @relation(fields: [serviceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users     Users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model users {
+model Users {
   id                  Int                   @id @default(autoincrement())
   name                String                @db.VarChar(100)
   email               String                @unique @db.VarChar(255)
-  password            String                @db.VarChar(20)
+  password            String                @db.VarChar(255)
   createdAt           DateTime?             @default(now()) @db.Timestamptz(6)
   updatedAt           DateTime?             @db.Timestamptz(6)
-  profiles            profiles[]
-  servicesAvaliations servicesAvaliations[]
-  sessions            sessions[]
-  userServices        userServices[]
+  profiles            Profiles[]
+  servicesAvaliations ServicesAvaliations[]
+  sessions            Sessions[]
+  userServices        UserServices[]
 }
