@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB, disconnectDB } from 'config';
 import { authRouter } from 'routes';
+import { handleApplicationErrors } from 'middlewares';
 
 dotenv.config();
 
@@ -10,7 +11,8 @@ const app = express();
 app
     .use(cors())
     .use(express.json())
-    .use('/', authRouter);
+    .use('/', authRouter)
+    .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
     connectDB();

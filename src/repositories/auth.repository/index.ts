@@ -4,7 +4,7 @@ import { Users } from '@prisma/client';
 async function findByEmail(email: string): Promise<Users> {
     return await prisma.users.findFirst({
         where: {
-            email,
+            email: email,
         },
     });
 }

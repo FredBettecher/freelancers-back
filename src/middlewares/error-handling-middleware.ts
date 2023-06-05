@@ -4,16 +4,15 @@ import httpStatus from 'http-status';
 
 const errors = {
     InternalServerError(err: ApplicationError, res: Response) {
-        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({
-            error: 'InternalServerError',
-            message: 'Internal Server Error',
-        });
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(
+            'message: Internal Server Error'
+        );
     },
 
     DuplicatedEmailError(err: ApplicationError, res: Response) {
-        return res.status(httpStatus.CONFLICT).send({
-            message: err.message,
-        });
+        return res.status(httpStatus.CONFLICT).send(
+            `message: ${err.message}`
+        );
     },
 };
 
