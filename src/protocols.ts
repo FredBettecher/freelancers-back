@@ -7,4 +7,6 @@ export enum AcceptedErrorNames {
     InternalServerError = 'InternalServerError',
     DuplicatedEmailError = 'DuplicatedEmailError',
     InvalidDataError = 'InvalidDataError',
+    InvalidCredentialsError = 'InvalidCredentialsError',
+    UnauthorizedError = 'UnauthorizedError',
 };

@@ -10,6 +10,7 @@ function validate(schema: ObjectSchema, type: 'body') {
     return (req: Request, res: Response, next: NextFunction) => {
         const { error } = schema.validate(req[type], {
             abortEarly: false,
+            presence: 'required',
         });
 
         if(!error) {
