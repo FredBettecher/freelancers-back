@@ -8,8 +8,19 @@ export async function signUp(req: Request, res: Response, next: NextFunction): P
     const hashPassword = bcrypt.hashSync(password, 10);
 
     try {
-        const signUpUser = await authServices.userRegistration(email, hashPassword);
-        return res.sendStatus(httpStatus.OK);
+        await authServices.userRegistration(email, hashPassword);
+        return res.sendStatus(httpStatus.CREATED);
+    } catch(error) {
+        next(error);
+    }
+}
+
+export async function login(req: Request, res: Response, next: NextFunction): Promise<Response> {
+    const { email, password } = req.body as { email: string, password: string };
+
+    try {
+        const token = await authServices.userLogin(email, password);
+        return res.status(httpStatus.OK).send({ token });
     } catch(error) {
         next(error);
     }

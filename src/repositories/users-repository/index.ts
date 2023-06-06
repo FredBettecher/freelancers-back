@@ -9,6 +9,14 @@ async function findByEmail(email: string): Promise<Users> {
     });
 }
 
+async function findById(userId: number): Promise<Users> {
+    return await prisma.users.findFirst({
+        where: {
+            id: userId,
+        },
+    });
+}
+
 async function createUser(email: string, password: string): Promise<Users> {
     return prisma.users.create({
         data: {
@@ -19,9 +27,10 @@ async function createUser(email: string, password: string): Promise<Users> {
     });
 }
 
-const authRepository = {
+const userRepository = {
     findByEmail,
+    findById,
     createUser,
 };
 
-export default authRepository;
+export default userRepository;

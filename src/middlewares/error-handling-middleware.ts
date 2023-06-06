@@ -5,13 +5,25 @@ import httpStatus from 'http-status';
 const errors = {
     InternalServerError(err: ApplicationError, res: Response) {
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(
-            'message: Internal Server Error'
+            'Internal server error'
         );
     },
 
     DuplicatedEmailError(err: ApplicationError, res: Response) {
         return res.status(httpStatus.CONFLICT).send(
-            `message: ${err.message}`
+            `${err.message}`
+        );
+    },
+
+    InvalidCredentialsError(err: ApplicationError, res: Response) {
+        return res.status(httpStatus.UNAUTHORIZED).send(
+            `${err.message}`
+        );
+    },
+
+    UnauthorizedError(err: ApplicationError, res: Response) {
+        return res.status(httpStatus.UNAUTHORIZED).send(
+            `${err.message}`
         );
     },
 };
