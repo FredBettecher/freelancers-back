@@ -65,15 +65,6 @@ model ServicesCategories {
   services  Services[]
 }
 
-model Sessions {
-  id        Int       @id @default(autoincrement())
-  token     String    @unique @db.VarChar(255)
-  userId    Int?
-  createdAt DateTime? @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime? @db.Timestamptz(6)
-  users     Users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
 model Skills {
   id            Int             @id @default(autoincrement())
   name          String          @db.VarChar(255)
@@ -102,6 +93,5 @@ model Users {
   updatedAt           DateTime?             @db.Timestamptz(6)
   profiles            Profiles[]
   servicesAvaliations ServicesAvaliations[]
-  sessions            Sessions[]
   userServices        UserServices[]
 }
