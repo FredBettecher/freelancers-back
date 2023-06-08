@@ -11,7 +11,7 @@ const app = express();
 app
     .use(cors())
     .use(express.json())
-    .use('/', authRouter)
+    .use('/auth', authRouter)
     .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {

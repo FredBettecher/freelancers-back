@@ -10,21 +10,24 @@ const errors = {
     },
 
     DuplicatedEmailError(err: ApplicationError, res: Response) {
-        return res.status(httpStatus.CONFLICT).send(
-            `${err.message}`
-        );
+        return res.status(httpStatus.CONFLICT).send({
+            name: err.name,
+            message: err.message,
+        });
     },
 
     InvalidCredentialsError(err: ApplicationError, res: Response) {
-        return res.status(httpStatus.UNAUTHORIZED).send(
-            `${err.message}`
-        );
+        return res.status(httpStatus.UNAUTHORIZED).send({
+            name: err.name,
+            message: err.message,
+        });
     },
 
     UnauthorizedError(err: ApplicationError, res: Response) {
-        return res.status(httpStatus.UNAUTHORIZED).send(
-            `${err.message}`
-        );
+        return res.status(httpStatus.UNAUTHORIZED).send({
+            name: err.name,
+            message: err.message,
+        });
     },
 };
 
