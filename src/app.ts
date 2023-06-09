@@ -2,7 +2,7 @@ import express, { Express } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB, disconnectDB } from 'config';
-import { authRouter } from 'routes';
+import { authRouter, usersRouter } from 'routes';
 import { handleApplicationErrors } from 'middlewares';
 
 dotenv.config();
@@ -11,6 +11,7 @@ const app = express();
 app
     .use(cors())
     .use(express.json())
+    .use('/users', usersRouter)
     .use('/auth', authRouter)
     .use(handleApplicationErrors);
 

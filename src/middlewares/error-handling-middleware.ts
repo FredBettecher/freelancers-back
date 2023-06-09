@@ -29,6 +29,13 @@ const errors = {
             message: err.message,
         });
     },
+
+    NotFoundError(err: ApplicationError, res: Response) {
+        return res.status(httpStatus.NOT_FOUND).send({
+            name: err.name,
+            message: err.message,
+        });
+    },
 };
 
 export function handleApplicationErrors(err: ApplicationError, _req: Request, res:Response, _next: NextFunction) {

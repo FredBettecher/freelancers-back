@@ -9,4 +9,5 @@ export enum AcceptedErrorNames {
     InvalidDataError = 'InvalidDataError',
     InvalidCredentialsError = 'InvalidCredentialsError',
     UnauthorizedError = 'UnauthorizedError',
+    NotFoundError = 'NotFoundError',
 };
