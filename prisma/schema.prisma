@@ -13,8 +13,8 @@ model ProfileSkills {
   skillId   Int?
   createdAt DateTime? @default(now()) @db.Timestamptz(6)
   updatedAt DateTime? @db.Timestamptz(6)
-  profiles  Profiles? @relation(fields: [profileId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  skills    Skills?   @relation(fields: [skillId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Profiles  Profiles? @relation(fields: [profileId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Skills    Skills?   @relation(fields: [skillId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Profiles {
@@ -27,8 +27,8 @@ model Profiles {
   location       String?         @db.VarChar(100)
   createdAt      DateTime?       @default(now()) @db.Timestamptz(6)
   updatedAt      DateTime?       @db.Timestamptz(6)
-  profileSkills  ProfileSkills[]
-  users          Users?          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ProfileSkills  ProfileSkills[]
+  Users          Users?          @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Services {
@@ -39,9 +39,9 @@ model Services {
   price               Int
   createdAt           DateTime?             @default(now()) @db.Timestamptz(6)
   updatedAt           DateTime?             @db.Timestamptz(6)
-  servicesCategories  ServicesCategories?   @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  servicesAvaliations ServicesAvaliations[]
-  userServices        UserServices[]
+  ServicesCategories  ServicesCategories?   @relation(fields: [category], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ServicesAvaliations ServicesAvaliations[]
+  UserServices        UserServices[]
 }
 
 model ServicesAvaliations {
@@ -53,16 +53,18 @@ model ServicesAvaliations {
   comment     String?
   createdAt   DateTime? @default(now()) @db.Timestamptz(6)
   updatedAt   DateTime? @db.Timestamptz(6)
-  services    Services? @relation(fields: [serviceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users       Users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Services    Services? @relation(fields: [serviceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Users       Users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model ServicesCategories {
-  id        Int        @id
-  name      String     @db.VarChar(255)
-  createdAt DateTime?  @default(now()) @db.Timestamptz(6)
-  updatedAt DateTime?  @db.Timestamptz(6)
-  services  Services[]
+  id            Int        @id
+  name          String     @db.VarChar(255)
+  createdAt     DateTime?  @default(now()) @db.Timestamptz(6)
+  updatedAt     DateTime?  @db.Timestamptz(6)
+  categoryImage String     @db.VarChar(255)
+  description   String
+  Services      Services[]
 }
 
 model Skills {
@@ -71,7 +73,7 @@ model Skills {
   description   String?
   createdAt     DateTime?       @default(now()) @db.Timestamptz(6)
   updatedAt     DateTime?       @db.Timestamptz(6)
-  profileSkills ProfileSkills[]
+  ProfileSkills ProfileSkills[]
 }
 
 model UserServices {
@@ -80,8 +82,8 @@ model UserServices {
   serviceId Int?
   createdAt DateTime? @default(now()) @db.Timestamptz(6)
   updatedAt DateTime? @db.Timestamptz(6)
-  services  Services? @relation(fields: [serviceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  users     Users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Services  Services? @relation(fields: [serviceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Users     Users?    @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model Users {
@@ -91,7 +93,7 @@ model Users {
   password            String                @db.VarChar(255)
   createdAt           DateTime?             @default(now()) @db.Timestamptz(6)
   updatedAt           DateTime?             @db.Timestamptz(6)
-  profiles            Profiles[]
-  servicesAvaliations ServicesAvaliations[]
-  userServices        UserServices[]
+  Profiles            Profiles[]
+  ServicesAvaliations ServicesAvaliations[]
+  UserServices        UserServices[]
 }

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import usersServices from 'services/users-services';
 
-async function getUsers(req: Request, res: Response, next: NextFunction): Promise<Response> {
+export async function getUsers(req: Request, res: Response, next: NextFunction): Promise<Response> {
     const { username } = req.body as { username: string };
 
     try {
@@ -12,9 +12,3 @@ async function getUsers(req: Request, res: Response, next: NextFunction): Promis
         next(error);
     }
 }
-
-const usersController = {
-    getUsers,
-};
-
-export default usersController;
